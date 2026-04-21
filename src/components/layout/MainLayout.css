@@ -1,0 +1,81 @@
+.app-layout {
+  min-height: 100vh;
+  background: #f5f7fa;
+}
+
+.app-layout__header,
+.app-layout__footer {
+  height: auto;
+  line-height: normal;
+  background: #ffffff;
+  padding: 0;
+}
+
+.app-layout__header {
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.app-layout__footer {
+  border-top: 1px solid #e5e7eb;
+}
+
+.app-layout__container,
+.app-layout__main {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.app-layout__container {
+  padding: 20px 32px;
+}
+
+.app-layout__content {
+  flex: 1;
+  width: 100%;
+  min-width: 0;
+  padding: 32px 0;
+}
+
+.app-layout__main {
+  min-width: 0;
+  padding: 0 32px;
+}
+
+.app-layout__title.ant-typography {
+  margin: 0;
+  color: #111827;
+}
+
+.app-layout__footer-text.ant-typography {
+  color: #4b5563;
+}
+
+@media (max-width: 991px) {
+  .app-layout__container {
+    padding: 18px 24px;
+  }
+
+  .app-layout__content {
+    padding: 24px 0;
+  }
+
+  .app-layout__main {
+    padding: 0 24px;
+  }
+}
+
+@media (max-width: 575px) {
+  .app-layout__container {
+    padding: 16px;
+  }
+
+  .app-layout__content {
+    padding: 16px 0;
+  }
+
+  .app-layout__main {
+    padding: 0 16px;
+  }
+}
