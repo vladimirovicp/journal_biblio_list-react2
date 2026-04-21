@@ -1,73 +1,120 @@
-# React + TypeScript + Vite
+# journal-biblio-list-react2
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Фронтенд-приложение на React + TypeScript + Vite для генерации библиографического списка журнала и последующей работы с XML.
 
-Currently, two official plugins are available:
+Сейчас проект находится на стадии каркаса: базовая архитектура уже собрана, но большая часть бизнес-логики пока представлена заготовками.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Что уже реализовано
 
-## React Compiler
+- Настроен стек `React 19` + `TypeScript` + `Vite`.
+- Подключен `Ant Design` и глобальный сброс стилей через `antd/dist/reset.css`.
+- Настроен alias `@` для импорта из директории `src`.
+- Собрана базовая структура приложения:
+  - `App` рендерит основной layout.
+  - `MainLayout` включает `Header`, `main` и `Footer`.
+  - Внутри layout подключена фича генератора.
+- Добавлен каркас фичи генератора:
+  - `FormStep` для будущей формы ввода.
+  - `XmlPreview` для будущего предпросмотра результата.
+- Подготовлен API-слой на базе `axios`:
+  - отдельный клиент;
+  - поддержка `VITE_API_BASE_URL`;
+  - заготовки для endpoint-ов и типизации ответов.
+- Подготовлены переиспользуемые UI-обертки:
+  - `CustomButton`;
+  - `CustomSelect`.
+- Добавлены заготовки утилит и хуков:
+  - `buildXmlTemplate` для генерации XML;
+  - `downloadPlaceholderFile` для скачивания файла;
+  - `useDebounce` для отложенной обработки значений.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Что есть в интерфейсе сейчас
 
-## Expanding the ESLint configuration
+На текущий момент в UI отображается только каркас приложения:
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- `Header`
+- `FormStep`
+- `XmlPreview`
+- `Footer`
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+Это означает, что маршрутизация и композиция компонентов уже собраны, но логика формы, генерация XML, загрузка/скачивание и интеграция с API еще не реализованы.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Структура проекта
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```text
+src/
+  api/
+    client.ts        # axios-клиент
+    endpoints.ts     # константы endpoint-ов
+    types.ts         # общие типы API
+  components/
+    layout/          # layout-компоненты приложения
+    ui/              # UI-обертки над Ant Design
+  features/
+    generator/       # фича генератора библиографического списка/XML
+  hooks/
+    useDebounce.ts   # заготовка debounce-хука
+  utils/
+    fileHelper.ts    # заготовка работы с файлами
+    xmlBuilder.ts    # заготовка генерации XML
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Команды
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Установка зависимостей:
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
 ```
+
+Запуск в режиме разработки:
+
+```bash
+npm run dev
+```
+
+Сборка проекта:
+
+```bash
+npm run build
+```
+
+Проверка линтером:
+
+```bash
+npm run lint
+```
+
+Локальный просмотр production-сборки:
+
+```bash
+npm run preview
+```
+
+## Переменные окружения
+
+Для API-клиента используется переменная:
+
+```env
+VITE_API_BASE_URL=http://localhost:3000
+```
+
+Если переменная не задана, базовый URL будет равен `/`.
+
+## Текущий статус
+
+Проект готов как основа для дальнейшей разработки. Уже можно:
+
+- запускать приложение;
+- развивать UI поверх существующей структуры;
+- подключать реальные API endpoint-ы;
+- реализовывать форму, предпросмотр и генерацию XML в подготовленных модулях.
+
+Пока не реализованы:
+
+- бизнес-логика формы;
+- генерация XML;
+- скачивание файла;
+- debounce-логика;
+- реальные API endpoint-ы;
+- оформление интерфейса сверх базового каркаса.
