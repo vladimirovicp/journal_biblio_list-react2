@@ -24,7 +24,7 @@ export default function FormStep({ selectedSiteUrl }: FormStepProps) {
           showIcon
           className="generator-form-step__message"
           description="Сначала выберите URL сайта в секции выше, после этого шаг станет активным."
-          message="Форма временно заблокирована"
+          title="Форма временно заблокирована"
           type="info"
         />
       ) : null}
