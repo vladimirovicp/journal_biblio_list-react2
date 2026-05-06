@@ -60,7 +60,15 @@ export default function JournalSelectorSection({
     )
   }
 
-  const options = journals.map((journal) => ({
+  const sorted = [...journals].sort((a, b) => {
+    const vDiff = Number(b.volume) - Number(a.volume)
+    if (vDiff !== 0) return vDiff
+    const nDiff = Number(b.number) - Number(a.number)
+    if (nDiff !== 0) return nDiff
+    return Number(b.part) - Number(a.part)
+  })
+
+  const options = sorted.map((journal) => ({
     label: journal.title.ru,
     value: journal.id,
   }))
