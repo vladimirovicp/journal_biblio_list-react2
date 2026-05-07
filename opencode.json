@@ -13,22 +13,14 @@
     }
   },
   "instructions": [
-    "AGENTS.md",
     "doc/*.md"
   ],
-  "formatter": true,
-  "lsp": {
-    "typescript": {}
-  },
+  "lsp": true,
   "watcher": {
     "ignore": [
       "node_modules/**",
       "dist/**",
       ".git/**"
     ]
-  },
-  "tools": {
-    "context7": true,
-    "gh_grep": true
   }
 }

@@ -4,6 +4,7 @@ import FormStep from '@/features/generator/FormStep'
 import XmlPreview from '@/features/generator/XmlPreview'
 import SiteSelectorSection from '@/features/generator/components/SiteSelectorSection'
 import JournalSelectorSection from '@/features/generator/components/JournalSelectorSection'
+import JournalContentSection from '@/features/generator/components/JournalContentSection'
 import './generator.css'
 
 export default function GeneratorFeature() {
@@ -23,6 +24,10 @@ export default function GeneratorFeature() {
         siteUrl={selectedSiteUrl}
         value={selectedJournalId}
         onChange={setSelectedJournalId}
+      />
+      <JournalContentSection
+        siteUrl={selectedSiteUrl}
+        journalId={selectedJournalId}
       />
       <FormStep selectedSiteUrl={selectedSiteUrl} />
       <XmlPreview selectedSiteUrl={selectedSiteUrl} />

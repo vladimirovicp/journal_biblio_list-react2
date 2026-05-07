@@ -17,3 +17,9 @@ export interface JournalNumber {
   journal_no_start: string
   journal_no_end: string
 }
+
+export interface JournalArticle {
+  id: number
+  title: JournalNumberTitle
+  page_no: string
+}

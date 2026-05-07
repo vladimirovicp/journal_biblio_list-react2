@@ -64,6 +64,39 @@
   line-height: 1.4;
 }
 
+.journal-content__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border: 1px solid #f0f0f0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.journal-content__item {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  padding: 12px 16px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.journal-content__title {
+  flex: 1;
+  min-width: 0;
+}
+
+.journal-content__page {
+  flex-shrink: 0;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.journal-content__item:last-child {
+  border-bottom: none;
+}
+
 @media (max-width: 575px) {
   .generator-feature {
     gap: 16px;

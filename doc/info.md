@@ -54,7 +54,7 @@ Select заполняется: value = id, label = title.ru
 
 
 
-Необходимо сделать сорттировку вывода от большего к меньшему для select журналов
+Необходимо сделать сортировку вывода от большего к меньшему для select журналов
 
 так как мы получаем след данные 
 
@@ -89,3 +89,37 @@ Select заполняется: value = id, label = title.ru
 ]
 
 нам нужно отсортировать по след данными volume, number, part
+
+---
+
+
+журнал выбран.
+Мы должны сохранить id журнала
+
+
+создать новую секцию
+Название: "Содержание"
+
+Необходимо пройти по запросу https://mmi.ddev.site/api/generate-abis/journal-list/{id журнала}
+
+пример ответа:
+
+[
+    {
+        "id": 7430,
+        "title": {
+            "ru": "Предельное распределение ранга дружбы в сложных сетях",
+            "en": "Limiting distribution of friendship rank in complex networks"
+        }
+    },
+    {
+        "id": 7431,
+        "title": {
+            "ru": "О задаче оптимального по времени управления для уравнения теплопроводности с инволюцией",
+            "en": "On a time-optimal control problem for a heat conduction equation with involution"
+        }
+    },
+]
+
+вывести названия статей title.ru
+
