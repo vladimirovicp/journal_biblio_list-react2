@@ -27,32 +27,6 @@
   width: 100%;
 }
 
-.generator-form-step {
-  transition:
-    opacity 0.2s ease,
-    transform 0.2s ease;
-}
-
-.generator-form-step--disabled {
-  opacity: 0.72;
-}
-
-.generator-form-step__message {
-  margin-bottom: 20px;
-}
-
-.generator-form-step__placeholder {
-  min-height: 140px;
-  border: 1px dashed #cbd5e1;
-  border-radius: 16px;
-  padding: 18px;
-  background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
-}
-
-.generator-form-step__placeholder--disabled {
-  background: linear-gradient(180deg, #f8fafc 0%, #f3f4f6 100%);
-}
-
 .generator-preview__meta {
   display: inline-flex;
   align-items: center;

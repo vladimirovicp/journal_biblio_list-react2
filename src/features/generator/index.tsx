@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
 
-import FormStep from '@/features/generator/FormStep'
 import XmlPreview from '@/features/generator/XmlPreview'
 import SiteSelectorSection from '@/features/generator/components/SiteSelectorSection'
 import JournalSelectorSection from '@/features/generator/components/JournalSelectorSection'
@@ -58,7 +57,6 @@ export default function GeneratorFeature() {
         journalNumberData={selectedJournalData}
         articleIds={journalArticleListID}
       />
-      <FormStep selectedSiteUrl={selectedSiteUrl} />
       <XmlPreview selectedSiteUrl={selectedSiteUrl} />
     </section>
   )
