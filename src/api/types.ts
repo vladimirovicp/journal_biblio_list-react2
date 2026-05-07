@@ -23,3 +23,53 @@ export interface JournalArticle {
   title: JournalNumberTitle
   page_no: string
 }
+
+export interface JournalMetadata {
+  titleid: string
+  issnPrint: string
+  issnOnline: string
+  elibraryTitle: {
+    ru: string
+    en: string
+  }
+}
+
+export interface ArticleAuthor {
+  num: number
+  surname: { ru: string; en: string }
+  initials: { ru: string; en: string }
+  researcherid?: string
+  spin?: string
+  scopusid?: string
+  orcid?: string
+  company: {
+    data: {
+      orgName: { ru: string; en: string }
+      address: { ru: string; en: string }
+    }
+  }
+}
+
+export interface JournalArticleDetail {
+  id: number
+  title: { ru: string; en: string }
+  body: { ru: string; en: string }
+  fulltext: string
+  page_no: string
+  page_no_to: string
+  heading: { ru: string; en: string }
+  typersci: { abbreviation: string }
+  autor: ArticleAuthor[]
+  udk: string
+  doi: string
+  edn: string
+  key_words: {
+    ru_page: { ru: string }[]
+    en_page: { en: string }[]
+  }
+  date_received: string
+  accepted: string
+  published: string
+  literature: { text: string }[]
+  text_pdf: { filename: string }
+}

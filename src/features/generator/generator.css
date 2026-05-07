@@ -97,6 +97,41 @@
   border-bottom: none;
 }
 
+.elibrary-xml__loading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 0;
+}
+
+.elibrary-xml__alert {
+  margin-bottom: 16px;
+}
+
+.elibrary-xml__textarea {
+  width: 100%;
+  min-height: 300px;
+  padding: 12px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 13px;
+  line-height: 1.5;
+  resize: vertical;
+  background: #fafafa;
+  color: #111827;
+}
+
+.elibrary-xml__textarea:focus {
+  outline: none;
+  border-color: #1d4ed8;
+  box-shadow: 0 0 0 2px rgba(29, 78, 216, 0.1);
+}
+
+.elibrary-xml__actions {
+  margin-top: 12px;
+}
+
 @media (max-width: 575px) {
   .generator-feature {
     gap: 16px;

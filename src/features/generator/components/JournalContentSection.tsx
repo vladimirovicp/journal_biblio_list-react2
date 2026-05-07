@@ -8,11 +8,13 @@ import type { JournalArticle } from '@/api/types'
 interface JournalContentSectionProps {
   siteUrl: string | null
   journalId: string | null
+  onArticlesLoaded: (ids: number[]) => void
 }
 
 export default function JournalContentSection({
   siteUrl,
   journalId,
+  onArticlesLoaded,
 }: JournalContentSectionProps) {
   const [articles, setArticles] = useState<JournalArticle[]>([])
   const [error, setError] = useState<string | null>(null)
@@ -31,6 +33,7 @@ export default function JournalContentSection({
           setArticles(data)
           setFetchedId(journalId)
           setError(null)
+          onArticlesLoaded(data.map((a) => a.id))
         }
       })
       .catch((err) => {
@@ -42,7 +45,7 @@ export default function JournalContentSection({
     return () => {
       cancelled = true
     }
-  }, [siteUrl, journalId])
+  }, [siteUrl, journalId, onArticlesLoaded])
 
   if (!journalId) {
     return null
@@ -57,7 +60,8 @@ export default function JournalContentSection({
       <div className="generator-section__header">
         <Typography.Title level={5}>Содержание</Typography.Title>
         <Typography.Paragraph type="secondary">
-          Список статей выбранного журнала
+          Список статей выбранного журнала ({articles.length}{' '}
+          {articles.length === 1 ? 'статья' : 'статей'})
         </Typography.Paragraph>
       </div>
 

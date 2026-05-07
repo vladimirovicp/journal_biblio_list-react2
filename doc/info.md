@@ -234,7 +234,7 @@ elibraryXML += '
     <abstracts>
         <abstract lang="RUS">{ journalArticleID.body.ru }</abstract>
         <abstract lang="ENG"> { journalArticleID.body.en }</abstracts>
-    <text lang="ANY"> { fulltext }</text>
+    <text lang="ANY"> { journalArticleID.fulltext }</text>
     <codes>
         <udk> {journalArticleID.udk}</udk>
         <doi>{journalArticleID.doi}</doi>
