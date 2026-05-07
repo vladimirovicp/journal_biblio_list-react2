@@ -27,17 +27,6 @@
   width: 100%;
 }
 
-.generator-preview__meta {
-  display: inline-flex;
-  align-items: center;
-  padding: 8px 12px;
-  border-radius: 999px;
-  background: #eff6ff;
-  color: #1d4ed8;
-  font-size: 14px;
-  line-height: 1.4;
-}
-
 .journal-content__list {
   list-style: none;
   padding: 0;

@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
 
-import XmlPreview from '@/features/generator/XmlPreview'
 import SiteSelectorSection from '@/features/generator/components/SiteSelectorSection'
 import JournalSelectorSection from '@/features/generator/components/JournalSelectorSection'
 import JournalContentSection from '@/features/generator/components/JournalContentSection'
@@ -57,7 +56,6 @@ export default function GeneratorFeature() {
         journalNumberData={selectedJournalData}
         articleIds={journalArticleListID}
       />
-      <XmlPreview selectedSiteUrl={selectedSiteUrl} />
     </section>
   )
 }
