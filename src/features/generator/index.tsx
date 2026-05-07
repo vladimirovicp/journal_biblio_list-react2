@@ -16,17 +16,17 @@ export default function GeneratorFeature() {
     setJournalArticleListID(ids)
   }, [])
 
-  useEffect(() => {
-    if (selectedJournalData) {
-      console.log('journalNumberData', selectedJournalData)
-    }
-  }, [selectedJournalData])
+  // useEffect(() => {
+  //   if (selectedJournalData) {
+  //     console.log('journalNumberData', selectedJournalData)
+  //   }
+  // }, [selectedJournalData])
 
-  useEffect(() => {
-    if (journalArticleListID.length > 0) {
-      console.log('journalArticleListID', journalArticleListID)
-    }
-  }, [journalArticleListID])
+  // useEffect(() => {
+  //   if (journalArticleListID.length > 0) {
+  //     console.log('journalArticleListID', journalArticleListID)
+  //   }
+  // }, [journalArticleListID])
 
   return (
     <section className="generator-feature">
