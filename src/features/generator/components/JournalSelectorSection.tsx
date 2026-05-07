@@ -9,7 +9,7 @@ import type { JournalNumber } from '@/api/types'
 interface JournalSelectorSectionProps {
   siteUrl: string | null
   value: string | null
-  onChange: (id: string | null) => void
+  onChange: (journal: JournalNumber | null) => void
 }
 
 export default function JournalSelectorSection({
@@ -100,7 +100,12 @@ export default function JournalSelectorSection({
             placeholder="Выберите номер журнала"
             size="large"
             value={value ?? undefined}
-            onChange={(nextValue) => onChange(nextValue ?? null)}
+            onChange={(nextValue) => {
+              const found = nextValue
+                ? journals.find((j) => j.id === nextValue) ?? null
+                : null
+              onChange(found)
+            }}
           />
         </Spin>
       )}

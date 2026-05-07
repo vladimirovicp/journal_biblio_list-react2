@@ -123,3 +123,160 @@ Select заполняется: value = id, label = title.ru
 
 вывести названия статей title.ru
 
+---
+
+
+При формировании Содержания должен быть создан список id - статей. назовем переменную journalArticleListID
+
+Далее создается секция Генерация xml для РИНЦ(elibrary.ru)
+
+Получаем данные по запросу 
+/api/generate-abis/journal-data
+
+Должно прийти следующего формата
+{
+    "titleid": "11982",
+    "issnPrint": "1816-9791",
+    "issnOnline": "2541-9005"
+    "elibraryTitle": {
+        "ru": "Известия Саратовского университета. Новая серия. Серия: Математика. Механика. Информатика",
+        "en": "Izvestiya of Saratov University. Mathematics. Mechanics. Informatics"
+    }
+}
+
+
+Проверяем на существование "titleid", "issnPrint", "issnOnline", elibraryTitle.ru и elibraryTitle.en
+
+если titleid пусто то выводим сообщение titleid не обнаружен процесс остановлен.
+если titleid пусто то выводим сообщение issnPrint не обнаружен процесс остановлен.
+если titleid пусто то выводим сообщение issnOnline не обнаружен процесс остановлен.
+если titleid пусто то выводим сообщение elibraryTitle.ru не обнаружен процесс остановлен.
+если titleid пусто то выводим сообщение elibraryTitle.en не обнаружен процесс остановлен.
+
+Если "titleid", "issnPrint", "issnOnline", elibraryTitle.ru и elibraryTitle.en все существуют то выполняем следующее иначе останавливаем процесс
+
+metadata = {
+    "titleid": "11982",
+    "issnPrint": "1816-9791",
+    "issnOnline": "2541-9005"
+    "elibraryTitle": {
+        "ru": "Известия Саратовского университета. Новая серия. Серия: Математика. Механика. Информатика",
+        "en": "Izvestiya of Saratov University. Mathematics. Mechanics. Informatics"
+    }
+}
+
+
+начинаем создавать 
+elibraryXML = '
+<?xml version="1.0" encoding="utf-16" standalone="no"?>
+<journal>
+    <titleid>metadata.titleid</titleid>
+    <issn>metadata.issnPrint</issn>
+    <eissn>metadata.issnOnline</eissn>
+    <journalInfo lang="RUS">
+        <title> metadata.elibraryTitle.ru </title>
+    </journalInfo>
+    <journalInfo lang="ENG">
+        <title> metadata.elibraryTitle.en </title>
+    </journalInfo>
+    <issue>
+        <volume>journalNumberData.volume</volume>
+        <number>journalNumberData.number</number>
+        <dateUni>journalNumberData.year</dateUni>
+        <pages>  {journalNumberData.journal_no_start}-{journalNumberData.journal_no_end}</pages>
+        <articles>
+'
+
+
+Проходим циклом каждый id из journalArticleListID
+
+Пусть каждый отдельный id из списка journalArticleListID заносится в переменную journalArticleID
+
+начало цикла
+
+elibraryXML += '
+<section>
+    <secTitle lang="RUS"> {journalArticleID.heading.ru} </secTitle>
+    <secTitle lang="ENG"> {journalArticleID.heading.en} </secTitle>
+</section>
+'
+
+elibraryXML += '
+<article>
+    <pages>{journalArticleID.page_no}-{journalArticleID.page_no_to}</pages>
+    <artType>{journalArticleID.typersci.abbreviation}</artType>
+    <authors>
+        <author num={journalArticleID.autor.num}> 
+            <authorCodes>
+                Если существует journalArticleID.autor.researcherid то <researcherid>{journalArticleID.autor.researcherid}</researcherid>
+                Если существует journalArticleID.autor.spin то <spin>{journalArticleID.autor.spin}</spin>
+                Если существует journalArticleID.autor.scopusid то <scopusid>{journalArticleID.autor.scopusid}</scopusid>
+                Если существует journalArticleID.autor.orcid то <orcid>{journalArticleID.autor.orcid}</orcid>
+            </authorCodes>
+            <individInfo lang="RUS">
+                <surname>{journalArticleID.autor.surname.ru}</surname>
+                <initials>{journalArticleID.autor.initials.ru}</initials>
+                <orgName>{journalArticleID.autor.company.data.orgName.ru}</orgName>
+                <address>{journalArticleID.autor.company.data.address.ru}</address>
+            </individInfo>
+            <individInfo lang="ENG">
+                <surname>{journalArticleID.autor.surname.en}</surname>
+                <initials>{journalArticleID.autor.initials.en}</initials>
+                <orgName>{journalArticleID.autor.company.data.orgName.en}</orgName>
+                <address>{journalArticleID.autor.company.data.address.en}</address>
+            </individInfo>
+        </author>
+    </authors>
+    <artTitles>
+        <artTitle lang="RUS">{ journalArticleID.title.ru }</artTitle>
+        <artTitle lang="ENG">{ journalArticleID.title.en}</artTitle>
+    </artTitles>
+    <abstracts>
+        <abstract lang="RUS">{ journalArticleID.body.ru }</abstract>
+        <abstract lang="ENG"> { journalArticleID.body.en }</abstracts>
+    <text lang="ANY"> { fulltext }</text>
+    <codes>
+        <udk> {journalArticleID.udk}</udk>
+        <doi>{journalArticleID.doi}</doi>
+        <edn> {journalArticleID.edn}</edn>
+    </codes>
+    <keywords>
+        <kwdGroup lang="RUS">
+            for key_word in journalArticleID.key_words.ru_page
+            <keyword>{key_word.ru}</keyword>
+        </kwdGroup>
+        <kwdGroup lang="ENG">
+            for key_word in journalArticleID.key_words.en_page
+            <keyword>{key_word.en}</keyword>
+        </kwdGroup>
+    </keywords>
+    <dates>
+        <dateReceived>{journalArticleID.date_received}</dateReceived>
+        <dateAccepted>{journalArticleID.accepted}</dateAccepted>
+        <datePublication>{journalArticleID.published}</datePublication>
+    </dates>
+    <references>
+        <reference>
+            for lit in journalArticleID.literature
+            <refInfo lang="ANY">
+                <text>{lit.text}</text>
+            </refInfo>
+    </reference>
+    <files>
+        <file desc="fullText">{journalArticleID.text_pdf.filename}</file>
+    </files>
+</article>
+'
+
+
+завершение цикла.
+
+
+elibraryXML += '
+        <articles>
+    </issue>
+</journal>
+'
+
+нужно вывести полученый результат в textarea с возможностью копировать,
+а так же с возможностью скачать файл xml. имя при сохранении xml дать следующее  {journalNumberData.title.en}-elibrary.xml
