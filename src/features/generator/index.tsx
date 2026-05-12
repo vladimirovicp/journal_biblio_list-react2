@@ -1,9 +1,10 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useState } from 'react'
 
 import SiteSelectorSection from '@/features/generator/components/SiteSelectorSection'
 import JournalSelectorSection from '@/features/generator/components/JournalSelectorSection'
 import JournalContentSection from '@/features/generator/components/JournalContentSection'
 import ElibraryXmlSection from '@/features/generator/components/ElibraryXmlSection'
+import MetaphorXmlSection from '@/features/generator/components/MetaphorXmlSection'
 import type { JournalNumber } from '@/api/types'
 import './generator.css'
 
@@ -15,18 +16,6 @@ export default function GeneratorFeature() {
   const handleArticlesLoaded = useCallback((ids: number[]) => {
     setJournalArticleListID(ids)
   }, [])
-
-  // useEffect(() => {
-  //   if (selectedJournalData) {
-  //     console.log('journalNumberData', selectedJournalData)
-  //   }
-  // }, [selectedJournalData])
-
-  // useEffect(() => {
-  //   if (journalArticleListID.length > 0) {
-  //     console.log('journalArticleListID', journalArticleListID)
-  //   }
-  // }, [journalArticleListID])
 
   return (
     <section className="generator-feature">
@@ -52,6 +41,11 @@ export default function GeneratorFeature() {
         onArticlesLoaded={handleArticlesLoaded}
       />
       <ElibraryXmlSection
+        siteUrl={selectedSiteUrl}
+        journalNumberData={selectedJournalData}
+        articleIds={journalArticleListID}
+      />
+      <MetaphorXmlSection
         siteUrl={selectedSiteUrl}
         journalNumberData={selectedJournalData}
         articleIds={journalArticleListID}
