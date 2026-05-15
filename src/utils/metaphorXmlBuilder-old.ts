@@ -151,18 +151,19 @@ export function buildMetaphorXml(
     <titleid>${esc(metadata.titleid)}</titleid>
     <issn>${esc(metadata.issnPrint)}</issn>
     <eissn>${esc(metadata.issnOnline)}</eissn>
+    <codeNEB>${UNDEF}</codeNEB>
     <journalInfo lang="RUS">
         <title>${esc(metadata.elibraryTitle.ru)}</title>
-        <abbrTitle>${esc(metadata.abbrTitle)}</abbrTitle>
-        <publ>${esc(metadata.publ)}</publ>
-        <placePubl>${esc(metadata.placePubl)}</placePubl>
-        <address>${esc(metadata.address)}</address>
+        <abbrTitle>${UNDEF}</abbrTitle>
+        <publ>${UNDEF}</publ>
+        <placePubl>${UNDEF}</placePubl>
+        <address>${UNDEF}</address>
     </journalInfo>
     <journalInfo lang="ENG">
         <title>${esc(metadata.elibraryTitle.en)}</title>
-        <abbrTitle>${esc(metadata.abbrTitle)}</abbrTitle>
-        <publ>${esc(metadata.publ)}</publ>
-        <placePubl>${esc(metadata.placePubl)}</placePubl>
+        <abbrTitle>${UNDEF}</abbrTitle>
+        <publ>${UNDEF}</publ>
+        <placePubl>${UNDEF}</placePubl>
     </journalInfo>
     <issue>
         <volume>${esc(journalNumberData.volume)}</volume>

@@ -32,6 +32,10 @@ export interface JournalMetadata {
     ru: string
     en: string
   }
+  abbrTitle: string
+  publ: string
+  placePubl: string
+  address: string
 }
 
 export interface ArticleAuthor {
