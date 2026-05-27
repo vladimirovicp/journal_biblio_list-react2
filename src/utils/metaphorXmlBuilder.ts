@@ -16,6 +16,29 @@ function esc(str: string): string {
     .replace(/'/g, '&apos;')
 }
 
+function describeValue(value: unknown): string {
+  if (value === null) return 'null'
+  if (value === undefined) return 'undefined'
+  try {
+    return JSON.stringify(value)
+  } catch {
+    return Object.prototype.toString.call(value)
+  }
+}
+
+function assertArray<T>(
+  value: T[] | null | undefined,
+  fieldPath: string,
+  context: string,
+): T[] {
+  if (Array.isArray(value)) return value
+
+  const type = value === null ? 'null' : typeof value
+  throw new Error(
+    `[Metaphor XML] ${context}: поле "${fieldPath}" должно быть массивом, получено ${type}. Значение: ${describeValue(value)}`,
+  )
+}
+
 function buildMetaphorAuthor(author: ArticleAuthor): string {
   let codes = ''
   if (author.scopusid) codes += `            <scopusid>${esc(author.scopusid)}</scopusid>\n`
@@ -42,17 +65,35 @@ ${codes}          </authorCodes>
 }
 
 function buildMetaphorArticle(article: JournalArticleDetail): string {
-  const authorsXml = article.autor.map(buildMetaphorAuthor).join('\n')
+  const context = `статья id=${article.id}`
 
-  const keywordsRu = article.key_words.ru_page
+  const authorsXml = assertArray(
+    article.autor,
+    'article.autor',
+    context,
+  ).map(buildMetaphorAuthor).join('\n')
+
+  const keywordsRu = assertArray(
+    article.key_words?.ru_page,
+    'article.key_words.ru_page',
+    context,
+  )
     .map((kw) => `            <keyword>${esc(kw.ru)}</keyword>`)
     .join('\n')
 
-  const keywordsEn = article.key_words.en_page
+  const keywordsEn = assertArray(
+    article.key_words?.en_page,
+    'article.key_words.en_page',
+    context,
+  )
     .map((kw) => `            <keyword>${esc(kw.en)}</keyword>`)
     .join('\n')
 
-  const refsXml = article.literature
+  const refsXml = assertArray(
+    article.literature,
+    'article.literature',
+    context,
+  )
     .map((lit) => `            <refInfo lang="ANY">
               <text>${esc(lit.text)}</text>
             </refInfo>`)
@@ -81,13 +122,6 @@ ${authorsXml}
                 <udk>${esc(article.udk)}</udk>
                 <doi>${esc(article.doi)}</doi>
                 <edn>${esc(article.edn)}</edn>
-                <bbk>${UNDEF}</bbk>
-                <vak>${UNDEF}</vak>
-                <vak21>${UNDEF}</vak21>
-                <jel>${UNDEF}</jel>
-                <msc>${UNDEF}</msc>
-                <pacs>${UNDEF}</pacs>
-                <anycode>${UNDEF}</anycode>
             </codes>
             <keywords>
                 <kwdGroup lang="RUS">
@@ -113,14 +147,6 @@ ${refsXml}
             <files>
                 <file desc="fullText">${esc(article.text_pdf.filename)}</file>
             </files>
-            <fundings>
-                <funding lang="RUS">${UNDEF}</funding>
-                <funding lang="ENG">${UNDEF}</funding>
-            </fundings>
-            <artFunding>
-                <funding lang="RUS">${UNDEF}</funding>
-                <funding lang="ENG">${UNDEF}</funding>
-            </artFunding>
             <secTitle lang="RUS">${esc(article.heading.ru)}</secTitle>
         </article>`
 }
@@ -130,11 +156,16 @@ export function buildMetaphorXml(
   journalNumberData: JournalNumber,
   articles: JournalArticleDetail[],
 ): string {
-  const cntArticle = String(articles.length)
+  const checkedArticles = assertArray(
+    articles,
+    'articles',
+    `журнал id=${journalNumberData.id}`,
+  )
+  const cntArticle = String(checkedArticles.length)
   const now = new Date()
   const dateStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`
 
-  const articlesXml = articles.map(buildMetaphorArticle).join('\n')
+  const articlesXml = checkedArticles.map(buildMetaphorArticle).join('\n')
 
   const pages = journalNumberData.journal_no_start && journalNumberData.journal_no_end
     ? `${esc(journalNumberData.journal_no_start)}-${esc(journalNumberData.journal_no_end)}`
@@ -172,10 +203,6 @@ export function buildMetaphorXml(
         <pages>${pages}</pages>
         <issTitle lang="RUS">${esc(journalNumberData.title.ru)}</issTitle>
         <issTitle lang="ENG">${esc(journalNumberData.title.en)}</issTitle>
-        <codes>
-            <doi>${UNDEF}</doi>
-            <edn>${UNDEF}</edn>
-        </codes>
         <files>
             <file desc="fullText">${UNDEF}</file>
         </files>

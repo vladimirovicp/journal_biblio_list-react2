@@ -6,12 +6,12 @@ export const SITE_OPTIONS: SiteOption[] = [
     value: 'https://mmi.sgu.ru',
   },
   {
-    label: 'https://mmi.ddev.site',
-    value: 'https://mmi.ddev.site',
+    label: 'https://eup.sgu.ru',
+    value: 'https://eup.sgu.ru',
   },
   {
-    label: 'https://archive.example.org',
-    value: 'https://archive.example.org',
+    label: 'https://mmi.ddev.site',
+    value: 'https://mmi.ddev.site',
   },
   {
     label: 'https://library.example.net',

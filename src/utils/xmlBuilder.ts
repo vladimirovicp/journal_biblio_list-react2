@@ -14,6 +14,29 @@ function escapeXml(str: string): string {
     .replace(/'/g, '&apos;')
 }
 
+function describeValue(value: unknown): string {
+  if (value === null) return 'null'
+  if (value === undefined) return 'undefined'
+  try {
+    return JSON.stringify(value)
+  } catch {
+    return Object.prototype.toString.call(value)
+  }
+}
+
+function assertArray<T>(
+  value: T[] | null | undefined,
+  fieldPath: string,
+  context: string,
+): T[] {
+  if (Array.isArray(value)) return value
+
+  const type = value === null ? 'null' : typeof value
+  throw new Error(
+    `[eLibrary XML] ${context}: поле "${fieldPath}" должно быть массивом, получено ${type}. Значение: ${describeValue(value)}`,
+  )
+}
+
 function buildAuthorXml(author: ArticleAuthor): string {
   let codes = ''
   if (author.researcherid) codes += `                <researcherid>${escapeXml(author.researcherid)}</researcherid>\n`
@@ -21,9 +44,11 @@ function buildAuthorXml(author: ArticleAuthor): string {
   if (author.scopusid) codes += `                <scopusid>${escapeXml(author.scopusid)}</scopusid>\n`
   if (author.orcid) codes += `                <orcid>${escapeXml(author.orcid)}</orcid>\n`
 
-  return `            <author num="${author.num}">
+  return `            
+        <author num="${author.num}">
             <authorCodes>
-${codes}            </authorCodes>
+                ${codes}            
+            </authorCodes>
             <individInfo lang="RUS">
                 <surname>${escapeXml(author.surname.ru)}</surname>
                 <initials>${escapeXml(author.initials.ru)}</initials>
@@ -40,17 +65,35 @@ ${codes}            </authorCodes>
 }
 
 function buildArticleXml(article: JournalArticleDetail): string {
-  const authorsXml = article.autor.map(buildAuthorXml).join('\n')
+  const context = `статья id=${article.id}`
 
-  const keywordsRu = article.key_words.ru_page
+  const authorsXml = assertArray(
+    article.autor,
+    'article.autor',
+    context,
+  ).map(buildAuthorXml).join('\n')
+
+  const keywordsRu = assertArray(
+    article.key_words?.ru_page,
+    'article.key_words.ru_page',
+    context,
+  )
     .map((kw) => `            <keyword>${escapeXml(kw.ru)}</keyword>`)
     .join('\n')
 
-  const keywordsEn = article.key_words.en_page
+  const keywordsEn = assertArray(
+    article.key_words?.en_page,
+    'article.key_words.en_page',
+    context,
+  )
     .map((kw) => `            <keyword>${escapeXml(kw.en)}</keyword>`)
     .join('\n')
 
-  const refsXml = article.literature
+  const refsXml = assertArray(
+    article.literature,
+    'article.literature',
+    context,
+  )
     .map((lit) => `            <refInfo lang="ANY">
                 <text>${escapeXml(lit.text)}</text>
             </refInfo>`)
@@ -109,7 +152,11 @@ export function buildElibraryXml(
   journalNumberData: JournalNumber,
   articles: JournalArticleDetail[],
 ): string {
-  const articlesXml = articles.map(buildArticleXml).join('\n')
+  const articlesXml = assertArray(
+    articles,
+    'articles',
+    `журнал id=${journalNumberData.id}`,
+  ).map(buildArticleXml).join('\n')
 
   return `<?xml version="1.0" encoding="utf-16" standalone="no"?>
 <journal>
