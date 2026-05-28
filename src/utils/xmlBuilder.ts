@@ -158,7 +158,7 @@ export function buildElibraryXml(
     `журнал id=${journalNumberData.id}`,
   ).map(buildArticleXml).join('\n')
 
-  return `<?xml version="1.0" encoding="utf-16" standalone="no"?>
+  return `<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <journal>
     <titleid>${escapeXml(metadata.titleid)}</titleid>
     <issn>${escapeXml(metadata.issnPrint)}</issn>
