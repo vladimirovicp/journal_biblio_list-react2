@@ -108,7 +108,7 @@ export default function ElibraryXmlSection({
     <section className="generator-section">
       <div className="generator-section__header">
         <Typography.Title level={5}>
-          Генерация XML для РИНЦ (elibrary.ru)
+          XML Journal для elibrary
         </Typography.Title>
         <Typography.Paragraph type="secondary">
           Автоматическая генерация XML-файла на основе данных журнала и статей

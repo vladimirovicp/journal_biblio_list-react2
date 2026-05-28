@@ -108,7 +108,7 @@ export default function MetaphorXmlSection({
     <section className="generator-section">
       <div className="generator-section__header">
         <Typography.Title level={5}>
-          Генерация XML для Метафоры
+          XML  JATS для Метафоры
         </Typography.Title>
         <Typography.Paragraph type="secondary">
           Автоматическая генерация XML-файла формата journal3 на основе данных журнала и статей.
