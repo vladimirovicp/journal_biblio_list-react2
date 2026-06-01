@@ -101,6 +101,15 @@ function buildArticleXml(article: JournalArticleDetail): string {
           </reference>`)
     .join('\n')
 
+  const funding = article.funding?.trim()
+  const fundingsXml = funding
+    ? `
+            <fundings>
+              <funding lang="RUS">${escapeXml(funding)}</funding>
+            </fundings>
+`
+    : ''
+
   return `        <section>
             <secTitle lang="RUS">${escapeXml(article.heading.ru)}</secTitle>
             <secTitle lang="ENG">${escapeXml(article.heading.en)}</secTitle>
@@ -138,6 +147,7 @@ ${keywordsEn}
                 <dateAccepted>${escapeXml(article.accepted)}</dateAccepted>
                 <datePublication>${escapeXml(article.published)}</datePublication>
             </dates>
+${fundingsXml}
             <references>
               ${refsXml}
             </references>

@@ -13,8 +13,4 @@ export const SITE_OPTIONS: SiteOption[] = [
     label: 'https://mmi.ddev.site',
     value: 'https://mmi.ddev.site',
   },
-  {
-    label: 'https://library.example.net',
-    value: 'https://library.example.net',
-  },
 ]

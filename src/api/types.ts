@@ -74,6 +74,7 @@ export interface JournalArticleDetail {
   date_received: string
   accepted: string
   published: string
+  funding?: string | null
   literature: { text: string }[]
   text_pdf: { filename: string }
 }
