@@ -94,9 +94,11 @@ function buildArticleXml(article: JournalArticleDetail): string {
     'article.literature',
     context,
   )
-    .map((lit) => `            <refInfo lang="ANY">
+    .map((lit) => `            <reference> 
+            <refInfo lang="ANY">
                 <text>${escapeXml(lit.text)}</text>
-            </refInfo>`)
+            </refInfo>
+          </reference>`)
     .join('\n')
 
   return `        <section>
@@ -137,9 +139,7 @@ ${keywordsEn}
                 <datePublication>${escapeXml(article.published)}</datePublication>
             </dates>
             <references>
-                <reference>
-${refsXml}
-                </reference>
+              ${refsXml}
             </references>
             <files>
                 <file desc="fullText">${escapeXml(article.text_pdf.filename)}</file>
