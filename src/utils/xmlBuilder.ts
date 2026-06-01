@@ -128,7 +128,7 @@ ${authorsXml}
                 <abstract lang="RUS">${escapeXml(article.body.ru)}</abstract>
                 <abstract lang="ENG">${escapeXml(article.body.en)}</abstract>
             </abstracts>
-            <text lang="ANY">${escapeXml(article.fulltext)}</text>
+            <text lang="RUS">${escapeXml(article.fulltext)}</text>
             <codes>
                 <udk>${escapeXml(article.udk)}</udk>
                 <doi>${escapeXml(article.doi)}</doi>
